@@ -1,120 +1,32 @@
-<!-- The top of file index.html -->
-<html itemscope itemtype="http://schema.org/Article">
-<head>
-  <!-- BEGIN Pre-requisites -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
-  </script>
-  <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer>
-  </script>
-  <!-- END Pre-requisites -->
-  <!-- Continuing the <head> section -->
-  <script>
-    function start() {
-      gapi.load('auth2', function() {
-        auth2 = gapi.auth2.init({
-          client_id: '80499037976-ltl3dh9jodcr59f6af38947bvlmb9ma1.apps.googleusercontent.com',
-          // Scopes to request in addition to 'profile' and 'email'
-          //scope: 'additional_scope'
-        });
-      });
-    }
-  </script>
-</head>
-<body>
-  <!-- ... -->
-
-
-  <!-- Add where you want your sign-in button to render -->
-<!-- Use an image that follows the branding guidelines in a real app -->
-<button id="signinButton">Sign in with Google</button>
+<html>
+    <head>
+      <meta name="google-signin-client_id" content="80499037976-ltl3dh9jodcr59f6af38947bvlmb9ma1.apps.googleusercontent.com">
+    <title>
+      Document
+    </title>
+  </head>
+  <body>
+    <p>This is a test page</p>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <script>
+    function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+}
+    </script>
+    <a href="#" onclick="signOut();">Sign out</a>
 <script>
-  $('#signinButton').click(function() {
-    // signInCallback defined in step 6.
-    auth2.grantOfflineAccess().then(signInCallback);
-  });
-</script>
-  <!-- Last part of BODY element in file index.html -->
-<script>
-function signInCallback(authResult) {
-  if (authResult['code']) {
-
-    // Hide the sign-in button now that the user is authorized, for example:
-    $('#signinButton').attr('style', 'display: none');
-
-    // Send the code to the server
-    $.ajax({
-      type: 'POST',
-      url: 'http://example.com/storeauthcode',
-      // Always include an `X-Requested-With` header in every AJAX request,
-      // to protect against CSRF attacks.
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest'
-      },
-      contentType: 'application/octet-stream; charset=utf-8',
-      success: function(result) {
-        // Handle or verify the server response.
-      },
-      processData: false,
-      data: authResult['code']
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
     });
-  } else {
-    // There was an error.
   }
-}
 </script>
-  <script>
-    // (Receive authCode via HTTPS POST)
-
-
-if (request.getHeader("X-Requested-With") == null) {
-  // Without the `X-Requested-With` header, this request could be forged. Aborts.
-}
-
-// Set path to the Web application client_secret_*.json file you downloaded from the
-// Google API Console: https://console.cloud.google.com/apis/credentials
-// You can also find your Web application client ID and client secret from the
-// console and specify them directly when you create the GoogleAuthorizationCodeTokenRequest
-// object.
-String CLIENT_SECRET_FILE = "/path/to/client_secret.json";
-
-// Exchange auth code for access token
-GoogleClientSecrets clientSecrets =
-    GoogleClientSecrets.load(
-        JacksonFactory.getDefaultInstance(), new FileReader(CLIENT_SECRET_FILE));
-GoogleTokenResponse tokenResponse =
-          new GoogleAuthorizationCodeTokenRequest(
-              new NetHttpTransport(),
-              JacksonFactory.getDefaultInstance(),
-              "https://oauth2.googleapis.com/token",
-              clientSecrets.getDetails().getClientId(),
-              clientSecrets.getDetails().getClientSecret(),
-              authCode,
-              REDIRECT_URI)  // Specify the same redirect URI that you use with your web
-                             // app. If you don't have a web version of your app, you can
-                             // specify an empty string.
-              .execute();
-
-String accessToken = tokenResponse.getAccessToken();
-
-// Use access token to call API
-GoogleCredential credential = new GoogleCredential().setAccessToken(accessToken);
-Drive drive =
-    new Drive.Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance(), credential)
-        .setApplicationName("Auth Code Exchange Demo")
-        .build();
-File file = drive.files().get("appfolder").execute();
-
-// Get profile info from ID token
-GoogleIdToken idToken = tokenResponse.parseIdToken();
-GoogleIdToken.Payload payload = idToken.getPayload();
-String userId = payload.getSubject();  // Use this value as a key to identify a user.
-String email = payload.getEmail();
-boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
-String name = (String) payload.get("name");
-String pictureUrl = (String) payload.get("picture");
-String locale = (String) payload.get("locale");
-String familyName = (String) payload.get("family_name");
-String givenName = (String) payload.get("given_name");
-  </script>
-</body>
+    
+  </body>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
 </html>
