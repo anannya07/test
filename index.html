@@ -1,131 +1,49 @@
-<html itemscope itemtype="http://schema.org/Article">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <!-- BEGIN Pre-requisites -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
-  </script>
-  <script src="script.js"></script>
-  <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer>
-  </script>
-  <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
-  <!-- END Pre-requisites -->
-  <!-- Continuing the <head> section -->
-  <script>
-    function start() {
-      gapi.load('auth2', function() {
-        auth2 = gapi.auth2.init({
-          client_id: '80499037976-ltl3dh9jodcr59f6af38947bvlmb9ma1.apps.googleusercontent.com',
-          // Scopes to request in addition to 'profile' and 'email'
-          //scope: 'additional_scope'
-        });
-      });
-    }
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
-<body>
-  <!-- ... -->
-
-
-  <!-- Add where you want your sign-in button to render -->
-<!-- Use an image that follows the branding guidelines in a real app -->
-<button id="signinButton" onclick="onSignIn()">Sign in with Google</button>
 <script>
-  $('#signinButton').click(function() {
-    // signInCallback defined in step 6.
-    auth2.grantOfflineAccess().then(signInCallback);
-  });
+    function handleCredentialsResponse(response){
+        console.log(response)
+        if(response.credential){
+          let jwt = response.credential
+          let user= JSON.parse(atob(jwt.split(".")[1]))
+          console.log(user)
+          document.getElementById('profile').innerHTML=`
+          <h1>Your name is: ${user.name}<br>
+            <h2>Your email is: ${user.email}<br>
+              <img src="${user.picture}"/><br>
+              `
+  document.getElementById('logout-button').style.display="block"
+          
+        }
+    }
+    function handleLogout(){
+      google.accounts.id.disableAutoselect()
+      google.accounts.id.prompt()
+      document.getElementById('profile').innerHTML=''
+      document.getElementById('logout-button').style.display='none'
+    }
+    function init(){
+      google.accounts.id.initialize({
+        client_id:"80499037976-ltl3dh9jodcr59f6af38947bvlmb9ma1.apps.googleusercontent.com",
+        auto_select:true,
+        callback: handleCredentialsResponse
+      })
+      google.accounts.id.prompt()
+    }
 </script>
-  <!-- Last part of BODY element in file index.html -->
-<script>
-function signInCallback(authResult) {
-  if (authResult['code']) {
+<body onload="init()">
 
-    // Hide the sign-in button now that the user is authorized, for example:
-    $('#signinButton').attr('style', 'display: none');
 
-    // Send the code to the server
-    $.ajax({
-      type: 'POST',
-      url: 'https://anannya07.github.io',
-      // Always include an `X-Requested-With` header in every AJAX request,
-      // to protect against CSRF attacks.
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest'
-      },
-      contentType: 'application/octet-stream; charset=utf-8',
-      success: function(result) {
-        // Handle or verify the server response.
-      },
+  <p id="profile"></p>
+  <button onclick="handleLogout()" style="display:none"id="logout-button" >Logout</button>
+
+  
     
-      data: authResult['code']
-    });
-  } else {
-    // There was an error.
-  }
-}
-</script>
-  <script>
-    // (Receive authCode via HTTPS POST)
-
-
-if (request.getHeader("X-Requested-With") == null) {
-  // Without the `X-Requested-With` header, this request could be forged. Aborts.
-}
-
-// Set path to the Web application client_secret_*.json file you downloaded from the
-// Google API Console: https://console.cloud.google.com/apis/credentials
-// You can also find your Web application client ID and client secret from the
-// console and specify them directly when you create the GoogleAuthorizationCodeTokenRequest
-// object.
-String CLIENT_SECRET_FILE = "CLIENT_SECRET_FILE";
-
-// Exchange auth code for access token
-GoogleClientSecrets clientSecrets =
-    GoogleClientSecrets.load(
-        JacksonFactory.getDefaultInstance(), new FileReader(CLIENT_SECRET_FILE));
-GoogleTokenResponse tokenResponse =
-          new GoogleAuthorizationCodeTokenRequest(
-              new NetHttpTransport(),
-              JacksonFactory.getDefaultInstance(),
-              "https://oauth2.googleapis.com/token",
-              clientSecrets.getDetails().getClientId(),
-              clientSecrets.getDetails().getClientSecret(),
-              authCode,
-             " https://anannya07.github.io"  // Specify the same redirect URI that you use with your web
-                             // app. If you don't have a web version of your app, you can
-                             // specify an empty string.
-              .execute();
-
-String accessToken = tokenResponse.getAccessToken();
-
-// Use access token to call API
-GoogleCredential credential = new GoogleCredential().setAccessToken("https://oauth2.googleapis.com/token");
-Drive drive =
-    new Drive.Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance(), credential)
-        .setApplicationName("Auth Code Exchange Demo")
-        .build();
-File file = drive.files().get("appfolder").execute();
-
-// Get profile info from ID token
-GoogleIdToken idToken = tokenResponse.parseIdToken();
-GoogleIdToken.Payload payload = idToken.getPayload();
-String userId = payload.getSubject();  // Use this value as a key to identify a user.
-String email = payload.getEmail();
-boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
-String name = (String) payload.get("name");
-String pictureUrl = (String) payload.get("picture");
-String locale = (String) payload.get("locale");
-String familyName = (String) payload.get("family_name");
-String givenName = (String) payload.get("given_name");
-  </script>
- 
-  <div class="data">
-    <p>Profile details</p>
-    <img id="pic" class="img-circle" width="100" height="100"/>
-    <p>Email address</p>
-    <p id="email" class="alert alert-danger"></p>
-    <button onclick="signOut()" class="btn btn-danger">Sign Out</button>
-  </div>
 </body>
 </html>
