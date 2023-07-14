@@ -47,7 +47,7 @@ function signInCallback(authResult) {
     // Send the code to the server
     $.ajax({
       type: 'POST',
-      url: 'http://example.com/storeauthcode',
+      url: 'https://anannya07.github.io',
       // Always include an `X-Requested-With` header in every AJAX request,
       // to protect against CSRF attacks.
       headers: {
@@ -92,7 +92,7 @@ GoogleTokenResponse tokenResponse =
               clientSecrets.getDetails().getClientId(),
               clientSecrets.getDetails().getClientSecret(),
               authCode,
-              REDIRECT_URI)  // Specify the same redirect URI that you use with your web
+              anannya07.github.io)  // Specify the same redirect URI that you use with your web
                              // app. If you don't have a web version of your app, you can
                              // specify an empty string.
               .execute();
