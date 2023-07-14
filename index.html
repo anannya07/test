@@ -78,7 +78,7 @@ if (request.getHeader("X-Requested-With") == null) {
 // You can also find your Web application client ID and client secret from the
 // console and specify them directly when you create the GoogleAuthorizationCodeTokenRequest
 // object.
-String CLIENT_SECRET_FILE = "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";
+String CLIENT_SECRET_FILE = "CLIENT_SECRET_FILE";
 
 // Exchange auth code for access token
 GoogleClientSecrets clientSecrets =
@@ -92,7 +92,7 @@ GoogleTokenResponse tokenResponse =
               clientSecrets.getDetails().getClientId(),
               clientSecrets.getDetails().getClientSecret(),
               authCode,
-             " https://anannya07.github.io")  // Specify the same redirect URI that you use with your web
+             " https://anannya07.github.io"  // Specify the same redirect URI that you use with your web
                              // app. If you don't have a web version of your app, you can
                              // specify an empty string.
               .execute();
