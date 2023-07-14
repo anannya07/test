@@ -23,16 +23,10 @@
         }
     }
     function handleLogout(){
-     fetch ("https://oauth2.googleapis.com/revoke?token" +info['access_token'],{
-         method='POST' ,
-         headers:{
-             'Content-type':'application/x-www-form-urlencoded'
-             }
-         
-     })
-        .then((data)=>{
-            location.href="https://github.com/anannya07/test/blob/main/Welcome.%20html"
-        })
+      google.accounts.id.disableAutoselect()
+      google.accounts.id.prompt()
+      document.getElementById('profile').innerHTML=''
+      document.getElementById('logout-button').style.display='none'
     }
     function init(){
       google.accounts.id.initialize({
@@ -47,7 +41,7 @@
 
 
   <p id="profile"></p>
-  <button onclick="handleLogout()" style="display: none "id="logout-button" >Logout</button>
+  <button onclick="handleLogout()" style="display:none"id="logout-button" >Logout</button>
 
   
     
