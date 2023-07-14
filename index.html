@@ -1,23 +1,13 @@
 <html>
-     <head><title>Sign in</title></head>
+     <head>
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+          <!-- Latest compiled and minified CSS -->
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+          <title>Sign in</title></head>
      <body>
            <script src="https://accounts.google.com/gsi/client" async defer></script>
-          <script>
-               const {OAuth2Client} = require('google-auth-library');
-                  const client = new OAuth2Client();
-                async function verify() {
-                 const ticket = await client.verifyIdToken({
-                idToken: token,
-                  audience: "80499037976-ltl3dh9jodcr59f6af38947bvlmb9ma1.apps.googleusercontent.com",  // Specify the CLIENT_ID of the app that accesses the backend
-      // Or, if multiple clients access the backend:
-      //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
-  });
-  const payload = ticket.getPayload();
-  const userid = payload['sub'];
-  // If request specified a G Suite domain:
-  // const domain = payload['hd'];
-}
-verify().catch(console.error);</script>
+          <script src="script.js">
+             </script>
           
           <div id="g_id_onload"
      data-client_id="80499037976-ltl3dh9jodcr59f6af38947bvlmb9ma1.apps.googleusercontent.com"
@@ -35,5 +25,12 @@ verify().catch(console.error);</script>
      data-size="large"
      data-logo_alignment="left">
 </div>
+                  <div class="data">
+                       <p>Profile details </p>
+                       <img id="pic" class="img-circle" width="100" height="100"/>
+                       <p>Email Address</p>
+                       <p id="email" class="alert alert-danger"></p>
+                       <button onclick="signOut()" class="btn btn-danger">SignOut</button>
+               </div>
      </body>
 </html>
