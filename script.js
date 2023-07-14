@@ -7,3 +7,7 @@ function onSignIn(googleuser)
   $("#email").text("profile.getEmail());
  }
   
+  $('#signinButton').click(function() {
+    // signInCallback defined in step 6.
+    auth2.grantOfflineAccess().then(signInCallback);
+  });
