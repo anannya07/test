@@ -29,7 +29,7 @@
 
   <!-- Add where you want your sign-in button to render -->
 <!-- Use an image that follows the branding guidelines in a real app -->
-<button id="signinButton">Sign in with Google</button>
+<button id="signinButton" onclick="onSignIn()">Sign in with Google</button>
 <script>
   $('#signinButton').click(function() {
     // signInCallback defined in step 6.
@@ -119,5 +119,17 @@ String locale = (String) payload.get("locale");
 String familyName = (String) payload.get("family_name");
 String givenName = (String) payload.get("given_name");
   </script>
+  <style>
+    .data{
+      display:none;
+    }
+  </style>
+  <div class="data">
+    <p>Profile details</p>
+    <img id="pic" class="img-circle" width="100" height="100"/>
+    <p>Email address</p>
+    <p id="email" class="alert alert-danger"></p>
+    <button onclick="signOut()" class="btn btn-danger">Sign Out</button>
+  </div>
 </body>
 </html>
