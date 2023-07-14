@@ -1,20 +1,5 @@
-<html  itemscope itemtype="http://schema.org/Article">
-     <head>
-          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-          <!-- Latest compiled and minified CSS -->
-          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-          <title>Sign in</title>
-     <style>
-     .data{
-          display:none;
-     }
-</style>
-     
-          <script src="script.js">
-             </script>
-   
-          <!--new-->
-
+<html itemscope itemtype="http://schema.org/Article">
+<head>
   <!-- BEGIN Pre-requisites -->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
   </script>
@@ -22,7 +7,6 @@
   </script>
   <!-- END Pre-requisites -->
   <!-- Continuing the <head> section -->
-          
   <script>
     function start() {
       gapi.load('auth2', function() {
@@ -41,14 +25,7 @@
 
   <!-- Add where you want your sign-in button to render -->
 <!-- Use an image that follows the branding guidelines in a real app -->
-<button class="signinButton"     
-     data-type="standard"
-     data-shape="pill"
-     data-theme="outline"
-     data-text="signin_with"
-     data-size="large"
-     data-logo_alignment="left"
-     data-onsuccess="onSignIn">Sign in with Google</button>
+<button id="signinButton">Sign in with Google</button>
 <script>
   $('#signinButton').click(function() {
     // signInCallback defined in step 6.
@@ -84,8 +61,6 @@ function signInCallback(authResult) {
   }
 }
 </script>
-
-     
   <script>
     // (Receive authCode via HTTPS POST)
 
@@ -140,15 +115,5 @@ String locale = (String) payload.get("locale");
 String familyName = (String) payload.get("family_name");
 String givenName = (String) payload.get("given_name");
   </script>
-
-
-          <!--new-->
-                  <div class="data">
-                       <p>Profile details </p>
-                       <img id="pic" class="img-circle" width="100" height="100"/>
-                       <p>Email Address</p>
-                       <p id="email" class="alert alert-danger"></p>
-                       <button onclick="signOut()" class="btn btn-danger">SignOut</button>
-               </div>
-     </body>
+</body>
 </html>
