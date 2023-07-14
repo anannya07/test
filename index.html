@@ -92,7 +92,7 @@ GoogleTokenResponse tokenResponse =
               clientSecrets.getDetails().getClientId(),
               clientSecrets.getDetails().getClientSecret(),
               authCode,
-              anannya07.github.io)  // Specify the same redirect URI that you use with your web
+             " https://anannya07.github.io")  // Specify the same redirect URI that you use with your web
                              // app. If you don't have a web version of your app, you can
                              // specify an empty string.
               .execute();
@@ -100,7 +100,7 @@ GoogleTokenResponse tokenResponse =
 String accessToken = tokenResponse.getAccessToken();
 
 // Use access token to call API
-GoogleCredential credential = new GoogleCredential().setAccessToken(accessToken);
+GoogleCredential credential = new GoogleCredential().setAccessToken("https://oauth2.googleapis.com/token");
 Drive drive =
     new Drive.Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance(), credential)
         .setApplicationName("Auth Code Exchange Demo")
