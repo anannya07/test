@@ -23,7 +23,7 @@
         }
     }
     function handleLogout(){
-      google.accounts.id.disableAutoselect()
+      google.accounts.id.disableAutoSelect()
       google.accounts.id.prompt()
       document.getElementById('profile').innerHTML=''
       document.getElementById('logout-button').style.display='none'
